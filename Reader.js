@@ -1,14 +1,9 @@
 const fs = require('fs');
 const readline = require('readline');
 
-class InputReader {
+class Reader {
   constructor (fileName) {
     this.fileName = fileName;
-    this.generatedInfo = {
-    	width: 0,
-    	height: 0,
-    	codes: []
-    };
   }
 
   read () {
@@ -24,8 +19,7 @@ class InputReader {
 			counter++;
 			lineInfo = line.split(' ')
 			if (counter === 1) {
-				this.generatedInfo.width = Number(lineInfo[0]);
-				this.generatedInfo.height = Number(lineInfo[1]);
+				this.generatedInfo = {width: Number(lineInfo[0]), height: Number(lineInfo[1]), codes: []};
 			} else {
 				this.generatedInfo.codes.push({code: lineInfo[0], symbol: lineInfo[1], numberOfSamples: Number(lineInfo[2])});
 			}
@@ -36,10 +30,6 @@ class InputReader {
 		});
 	});
   }
-
-  getInfo () {
-  	return this.generatedInfo;
-  }
 }
 
-module.exports = InputReader;
+module.exports = Reader;
