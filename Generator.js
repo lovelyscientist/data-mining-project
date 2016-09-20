@@ -1,10 +1,12 @@
+const EPSILON = 0.5;
+
 class Generator {
   constructor (info) {
     this.width = info.width;
     this.height = info.height;
     this.codes = info.codes;
-    this.symbolsFrequencyStorage = {};
     this.totalSamplesCount = 0;
+    this.samples = [];
     this
     	.defineFrequency()
     	.generate();
@@ -13,24 +15,39 @@ class Generator {
   defineFrequency () {
   	this.codes.map((el) => {
   		this.totalSamplesCount += el.numberOfSamples;
-  		this.symbolsFrequencyStorage[el.symbol] = {quantity: el.numberOfSamples};
-  	});
-
-  	for (let symbol in this.symbolsFrequencyStorage) {
-  		this.symbolsFrequencyStorage[symbol].frequency = (this.symbolsFrequencyStorage[symbol].quantity/this.totalSamplesCount).toFixed(2);
-  	}
+    });
 
   	return this;
   }
 
   generate () {
-  	let i, randomNumber;
+  	let i,counter = 0,
+  	 	randomNumber;
 
-  	for (i = 0; i < this.totalSamplesCount; i++) {
-  		randomNumber = Math.random().toFixed(2);
+  	while (counter !== this.totalSamplesCount) {
+  		for (i = 0; i < this.codes.length; i++) {
+  			randomNumber = Math.round(Math.random() * (this.codes.length-1));
+
+  			if (this.codes[randomNumber].numberOfSamples > 0) {
+  				--this.codes[randomNumber].numberOfSamples;
+  				++counter;
+  				
+  				this.createSample(this.codes[randomNumber]);
+
+  				console.log(this.codes[randomNumber].symbol);
+  			}
+  		}
   	}
+
+  	return this;
   }
+
+  createSample (object) {}
 
 }
 
 module.exports = Generator;
+
+
+
+
