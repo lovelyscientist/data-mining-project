@@ -33,16 +33,23 @@ class Generator {
   				++counter;
   				
   				this.createSample(this.codes[randomNumber]);
-
-  				console.log(this.codes[randomNumber].symbol);
   			}
   		}
   	}
 
+  	console.log(this.samples);
+
   	return this;
   }
 
-  createSample (object) {}
+  createSample (object) {
+  	let code = object.code
+  		.split('')
+  		.map(symbol => (Math.random() >= EPSILON ? symbol : Number(!symbol)))
+  		.join('');
+
+  	this.samples.push({code: code, symbol: object.symbol, original: object.code});
+  }
 
 }
 
