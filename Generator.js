@@ -1,10 +1,9 @@
-const EPSILON = 0.5;
-
 class Generator {
   constructor (info) {
     this.width = info.width;
     this.height = info.height;
     this.codes = info.codes;
+    this.EPSILON = info.EPSILON;
     this.totalSamplesCount = 0;
     this.samples = [];
     this
@@ -37,20 +36,17 @@ class Generator {
   		}
   	}
 
-  	console.log(this.samples);
-
   	return this;
   }
 
   createSample (object) {
   	let code = object.code
   		.split('')
-  		.map(symbol => (Math.random() >= EPSILON ? symbol : Number(!symbol)))
+  		.map(symbol => (Math.random() >= this.EPSILON ? symbol : Number(!symbol)))
   		.join('');
 
-  	this.samples.push({code: code, symbol: object.symbol, original: object.code});
+  	this.samples.push({code: code, symbol: object.symbol});
   }
-
 }
 
 module.exports = Generator;

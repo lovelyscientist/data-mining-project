@@ -4,11 +4,9 @@ class Visualizer {
   constructor (generator) {
     this.width = generator.width;
     this.height = generator.height;
-    this.print(generator.samples[0].original);
-    this.print(generator.samples[0].code);
-    this.print(generator.samples[1].code);
-    this.print(generator.samples[2].code);
-    this.print(generator.samples[3].code);
+    this.samples = generator.samples;
+    this.originals = generator.codes;
+    this.printAll();
   }
 
   print (code) {
@@ -26,6 +24,18 @@ class Visualizer {
   	}
 
   	process.stdout.write('\n');
+  }
+
+  printAll () {
+  	process.stdout.write(colors.bold(`Originals: \n`));
+  	this.originals.map(el => {
+  		this.print(el.code);
+  	});
+
+  	process.stdout.write(colors.bold(`Samples: \n`));
+  	this.samples.map(el => {
+  		this.print(el.code);
+  	});
   }
 }
 
